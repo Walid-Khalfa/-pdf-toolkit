@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans bg-gray-50 text-gray-900 antialiased;
+  }
+}
+
+@layer components {
+  .drop-zone-active {
+    @apply border-primary-500 bg-primary-50 scale-[1.01];
+  }
+
+  .tool-card-hover {
+    @apply hover:shadow-lg hover:-translate-y-1 transition-all duration-200;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.gray.300') transparent;
+  }
+}

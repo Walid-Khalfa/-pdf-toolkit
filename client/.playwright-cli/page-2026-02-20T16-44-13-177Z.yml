@@ -1,0 +1,51 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - link "PDF Toolkit" [ref=e7] [cursor=pointer]:
+      - /url: /
+      - img [ref=e9]
+      - generic [ref=e11]: PDF Toolkit
+  - main [ref=e12]:
+    - generic [ref=e13]:
+      - generic [ref=e15]:
+        - generic [ref=e16]:
+          - img [ref=e17]
+          - text: 100% free · No sign-up required
+        - heading "Every PDF tool you need, right in your browser" [level=1] [ref=e19]
+        - paragraph [ref=e20]: Merge, split, and convert images to PDF — all client-side with zero file uploads. Your documents stay on your device.
+      - generic [ref=e21]:
+        - heading "Choose a tool" [level=2] [ref=e22]
+        - generic [ref=e23]:
+          - link "Merge PDFs Combine multiple PDF files into one. Drag and drop to reorder pages." [ref=e24] [cursor=pointer]:
+            - /url: /merge
+            - img [ref=e26]
+            - heading "Merge PDFs" [level=3] [ref=e28]
+            - paragraph [ref=e29]: Combine multiple PDF files into one. Drag and drop to reorder pages.
+          - link "Split PDF Split a PDF into individual pages or extract a custom page range." [ref=e30] [cursor=pointer]:
+            - /url: /split
+            - img [ref=e32]
+            - heading "Split PDF" [level=3] [ref=e34]
+            - paragraph [ref=e35]: Split a PDF into individual pages or extract a custom page range.
+          - link "Images to PDF Convert JPG, PNG, and WebP images into a single PDF document." [ref=e36] [cursor=pointer]:
+            - /url: /images-to-pdf
+            - img [ref=e38]
+            - heading "Images to PDF" [level=3] [ref=e40]
+            - paragraph [ref=e41]: Convert JPG, PNG, and WebP images into a single PDF document.
+      - generic [ref=e44]:
+        - generic [ref=e45]:
+          - img [ref=e47]
+          - heading "100% Private" [level=3] [ref=e49]
+          - paragraph [ref=e50]: All processing happens in your browser. Your files are never uploaded to any server.
+        - generic [ref=e51]:
+          - img [ref=e53]
+          - heading "Fast & Free" [level=3] [ref=e55]
+          - paragraph [ref=e56]: No registration, no limits, no fees. Just drag, drop, and download.
+        - generic [ref=e57]:
+          - img [ref=e59]
+          - heading "Works Everywhere" [level=3] [ref=e61]
+          - paragraph [ref=e62]: Compatible with all modern browsers on desktop and mobile.
+  - contentinfo [ref=e63]:
+    - generic [ref=e65]:
+      - paragraph [ref=e66]: © 2026 PDF Toolkit. Free online PDF tools.
+      - paragraph [ref=e67]:
+        - img [ref=e68]
+        - text: 100% client-side — your files never leave your browser

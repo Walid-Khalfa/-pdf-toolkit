@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="8" fill="#ed1515"/>
+  <path d="M9 7h10l6 6v12a2 2 0 01-2 2H9a2 2 0 01-2-2V9a2 2 0 012-2z" fill="white"/>
+  <path d="M19 7l6 6h-6V7z" fill="#ffc5c5"/>
+  <text x="7" y="24" font-family="Arial" font-weight="bold" font-size="8" fill="#ed1515">PDF</text>
+</svg>

@@ -34,6 +34,54 @@ const tools = [
       </svg>
     ),
   },
+  {
+    title: 'Compress PDF',
+    description: 'Reduce PDF file size while maintaining quality. Choose compression level.',
+    href: '/compress',
+    color: 'bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950/50 dark:to-purple-900/30 text-purple-600 dark:text-purple-400',
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+      </svg>
+    ),
+    badge: 'New',
+  },
+  {
+    title: 'Protect PDF',
+    description: 'Add password protection with customizable permissions for printing and copying.',
+    href: '/protect',
+    color: 'bg-gradient-to-br from-amber-50 to-amber-100 dark:from-amber-950/50 dark:to-amber-900/30 text-amber-600 dark:text-amber-400',
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+      </svg>
+    ),
+    badge: 'New',
+  },
+  {
+    title: 'Unlock PDF',
+    description: 'Remove password protection from your PDF files. Enter the correct password.',
+    href: '/unlock',
+    color: 'bg-gradient-to-br from-green-50 to-green-100 dark:from-green-950/50 dark:to-green-900/30 text-green-600 dark:text-green-400',
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+      </svg>
+    ),
+    badge: 'New',
+  },
+  {
+    title: 'PDF to Images',
+    description: 'Convert PDF pages into high-quality images. Choose format and resolution.',
+    href: '/pdf-to-images',
+    color: 'bg-gradient-to-br from-teal-50 to-teal-100 dark:from-teal-950/50 dark:to-teal-900/30 text-teal-600 dark:text-teal-400',
+    icon: (
+      <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    ),
+    badge: 'New',
+  },
 ]
 
 const features = [
@@ -193,7 +241,7 @@ export default function LandingPage() {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {tools.map((tool, index) => (
             <ToolCard key={tool.href} {...tool} delay={index * 100} />
           ))}

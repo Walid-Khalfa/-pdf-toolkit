@@ -40,7 +40,14 @@ function SortableImageItem({
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative rounded-xl overflow-hidden border-2 ${isDragging ? 'border-primary-400 shadow-xl opacity-75' : 'border-gray-200 shadow-sm'}`}
+      className={`relative rounded-xl overflow-hidden border-2 
+                  bg-white dark:bg-gray-800
+                  transition-all duration-200
+                  ${isDragging 
+                    ? 'border-primary-400 dark:border-primary-500 shadow-xl opacity-75 scale-[1.02]' 
+                    : 'border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md'
+                  }
+                  animate-fade-in`}
     >
       <div
         {...attributes}
@@ -51,18 +58,24 @@ function SortableImageItem({
       {file.preview ? (
         <img src={file.preview} alt={file.name} className="w-full h-28 object-cover" />
       ) : (
-        <div className="w-full h-28 bg-gray-100 flex items-center justify-center">
-          <svg className="w-8 h-8 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <div className="w-full h-28 bg-gray-100 dark:bg-gray-700 flex items-center justify-center">
+          <svg className="w-8 h-8 text-gray-400 dark:text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         </div>
       )}
-      <div className="p-1.5 bg-white">
-        <p className="text-xs text-gray-600 truncate">{file.name}</p>
+      <div className="p-1.5 bg-white dark:bg-gray-800 border-t border-gray-100 dark:border-gray-700">
+        <p className="text-xs text-gray-600 dark:text-gray-400 truncate">{file.name}</p>
       </div>
       <button
         onClick={(e) => { e.stopPropagation(); onRemove(file.id) }}
-        className="absolute top-1 right-1 z-20 w-6 h-6 bg-white rounded-full shadow flex items-center justify-center text-gray-400 hover:text-red-500 transition-colors"
+        className="absolute top-2 right-2 z-20 w-6 h-6 
+                   bg-white dark:bg-gray-800 
+                   rounded-full shadow-md 
+                   flex items-center justify-center 
+                   text-gray-400 hover:text-red-500 dark:hover:text-red-400 
+                   hover:scale-110
+                   transition-all"
         aria-label="Remove image"
       >
         <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -174,7 +187,7 @@ export default function ImagesToPdfTool() {
         label="Drop images here or click to select"
         hint="Supports JPG, PNG, and WebP — drag to reorder"
         icon={
-          <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <svg className="w-8 h-8 text-blue-600 dark:text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
         }
@@ -183,12 +196,16 @@ export default function ImagesToPdfTool() {
       <ErrorBanner errors={upload.errors} />
 
       {upload.files.length > 0 && (
-        <div className="space-y-4">
+        <div className="space-y-4 animate-fade-in">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-gray-700">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
               {upload.files.length} image{upload.files.length > 1 ? 's' : ''} selected
             </p>
-            <button onClick={handleReset} className="text-xs text-gray-400 hover:text-red-500 transition-colors">
+            <button 
+              onClick={handleReset} 
+              className="text-xs text-gray-400 hover:text-red-500 dark:hover:text-red-400 
+                         transition-colors font-medium"
+            >
               Clear all
             </button>
           </div>
@@ -203,15 +220,15 @@ export default function ImagesToPdfTool() {
             </SortableContext>
           </DndContext>
 
-          <div className="bg-gray-50 rounded-xl p-4 space-y-4">
-            <p className="text-sm font-medium text-gray-700">PDF Options</p>
+          <div className="options-panel">
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300">PDF Options</p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Page size</label>
+                <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Page size</label>
                 <select
                   value={options.pageSize}
                   onChange={(e) => setOptions((o) => ({ ...o, pageSize: e.target.value as PageSize }))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+                  className="select"
                 >
                   <option value="A4">A4</option>
                   <option value="Letter">Letter</option>
@@ -219,22 +236,22 @@ export default function ImagesToPdfTool() {
                 </select>
               </div>
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Orientation</label>
+                <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Orientation</label>
                 <select
                   value={options.orientation}
                   onChange={(e) => setOptions((o) => ({ ...o, orientation: e.target.value as Orientation }))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+                  className="select"
                 >
                   <option value="portrait">Portrait</option>
                   <option value="landscape">Landscape</option>
                 </select>
               </div>
               <div>
-                <label className="text-xs text-gray-500 mb-1 block">Margin (pt)</label>
+                <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Margin (pt)</label>
                 <select
                   value={options.margin}
                   onChange={(e) => setOptions((o) => ({ ...o, margin: Number(e.target.value) }))}
-                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 bg-white"
+                  className="select"
                 >
                   <option value={0}>None</option>
                   <option value={10}>Small (10pt)</option>
@@ -250,11 +267,13 @@ export default function ImagesToPdfTool() {
       {status === 'processing' && <ProgressBar label="Converting images to PDF…" />}
 
       {status === 'done' && (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-4 flex items-center gap-3">
-          <svg className="w-5 h-5 text-green-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p className="text-sm text-green-700 font-medium">PDF created and downloaded successfully!</p>
+        <div className="success-banner">
+          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+            <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p className="text-sm text-green-700 dark:text-green-300 font-medium">PDF created and downloaded successfully!</p>
         </div>
       )}
 
@@ -269,10 +288,12 @@ export default function ImagesToPdfTool() {
           loading={status === 'processing'}
           size="lg"
           className="flex-1 sm:flex-none"
+          icon={
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          }
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-          </svg>
           Convert to PDF
         </Button>
         {(upload.files.length > 0 || status !== 'idle') && (

@@ -1,0 +1,50 @@
+import UnlockTool from '@/components/tools/UnlockTool'
+
+export default function UnlockPage() {
+  return (
+    <div className="min-h-[calc(100vh-3.5rem)] 
+                    bg-gradient-to-b from-gray-50 to-white 
+                    dark:from-gray-950 dark:to-gray-900
+                    transition-colors duration-300">
+      <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Header */}
+        <div className="mb-8 text-center animate-fade-in-up">
+          <div className="inline-flex w-16 h-16 rounded-2xl 
+                          bg-gradient-to-br from-green-50 to-green-100 
+                          dark:from-green-950/50 dark:to-green-900/30
+                          items-center justify-center mb-5 
+                          border border-green-100 dark:border-green-900/50
+                          shadow-lg shadow-green-500/5">
+            <svg className="w-8 h-8 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+            Unlock <span className="gradient-text">PDF</span>
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 max-w-md mx-auto">
+            Remove password protection from your PDF files. Enter the correct password to unlock and download.
+          </p>
+        </div>
+
+        {/* Tool Component */}
+        <div className="animate-fade-in-up animation-delay-100">
+          <UnlockTool />
+        </div>
+
+        {/* Server-side notice */}
+        <div className="mt-8 p-4 bg-amber-50 dark:bg-amber-950/30 rounded-xl border border-amber-100 dark:border-amber-900/50 animate-fade-in-up animation-delay-200">
+          <div className="flex items-start gap-3">
+            <svg className="w-5 h-5 text-amber-600 dark:text-amber-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div className="text-sm text-amber-800 dark:text-amber-300">
+              <p className="font-medium mb-1">Server-side processing</p>
+              <p className="text-amber-700 dark:text-amber-400">This tool processes files on our server. Your files are processed securely and deleted immediately after.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}

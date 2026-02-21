@@ -8,9 +8,10 @@ interface ToolCardProps {
   icon: React.ReactNode
   color: string
   delay?: number
+  badge?: string
 }
 
-export default function ToolCard({ title, description, href, icon, color, delay = 0 }: ToolCardProps) {
+export default function ToolCard({ title, description, href, icon, color, delay = 0, badge }: ToolCardProps) {
   const [transform, setTransform] = useState('')
   const cardRef = useRef<HTMLAnchorElement>(null)
 
@@ -73,10 +74,21 @@ export default function ToolCard({ title, description, href, icon, color, delay 
         </div>
       </div>
 
-      {/* Title */}
-      <h3 className="font-semibold text-gray-900 dark:text-white text-base mb-1 relative z-10">
-        {title}
-      </h3>
+      {/* Title with badge */}
+      <div className="flex items-center gap-2 relative z-10">
+        <h3 className="font-semibold text-gray-900 dark:text-white text-base mb-1">
+          {title}
+        </h3>
+        {badge && (
+          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium 
+                         bg-primary-100 dark:bg-primary-900/50 
+                         text-primary-700 dark:text-primary-300
+                         border border-primary-200 dark:border-primary-800
+                         animate-bounce-subtle">
+            {badge}
+          </span>
+        )}
+      </div>
       
       {/* Description */}
       <p className="text-sm text-gray-500 dark:text-gray-400 leading-relaxed relative z-10">

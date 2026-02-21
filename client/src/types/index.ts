@@ -21,3 +21,42 @@ export interface ImageToPdfOptions {
 }
 
 export type ToolStatus = 'idle' | 'processing' | 'done' | 'error'
+
+export type CompressionQuality = 'low' | 'medium' | 'high'
+
+export interface CompressOptions {
+  quality: CompressionQuality
+}
+
+export interface ProtectOptions {
+  userPassword: string
+  ownerPassword?: string
+  allowPrinting?: boolean
+  allowCopying?: boolean
+  allowModifying?: boolean
+}
+
+export interface UnlockOptions {
+  password: string
+}
+
+export type ImageFormat = 'jpg' | 'png'
+
+export interface PdfToImagesOptions {
+  format: ImageFormat
+  quality: number
+  dpi: number
+}
+
+export interface ApiResponse<T = unknown> {
+  success: boolean
+  data?: T
+  error?: string
+}
+
+export interface CompressResult {
+  bytes: Uint8Array
+  filename: string
+  originalSize: number
+  compressedSize: number
+}

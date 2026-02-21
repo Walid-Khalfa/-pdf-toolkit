@@ -1,0 +1,37 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "PDF Toolkit" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e9]
+        - generic [ref=e11]: PDF Toolkit
+      - generic [ref=e12]:
+        - link "All Tools" [ref=e13] [cursor=pointer]:
+          - /url: /
+          - img [ref=e14]
+          - text: All Tools
+        - button "Switch to light mode" [ref=e16] [cursor=pointer]:
+          - img
+          - img [ref=e17]
+  - main [ref=e19]:
+    - generic [ref=e21]:
+      - generic [ref=e22]:
+        - img [ref=e24]
+        - heading "Merge PDFs" [level=1] [ref=e26]
+        - paragraph [ref=e27]: Combine multiple PDF files into one document. Drag to reorder before merging.
+      - generic [ref=e29]:
+        - generic [ref=e30] [cursor=pointer]:
+          - img [ref=e33]
+          - generic [ref=e35]:
+            - paragraph [ref=e36]: Drop PDF files here or click to select
+            - paragraph [ref=e37]: You can add multiple PDFs and drag to reorder them
+        - button "Merge PDFs" [disabled] [ref=e43]:
+          - img [ref=e44]
+          - text: Merge PDFs
+  - contentinfo [ref=e46]:
+    - generic [ref=e48]:
+      - paragraph [ref=e49]: © 2026 PDF Toolkit. Free online PDF tools.
+      - paragraph [ref=e50]:
+        - img [ref=e51]
+        - generic [ref=e53]: 100% client-side
+        - generic [ref=e54]: — your files never leave your browser

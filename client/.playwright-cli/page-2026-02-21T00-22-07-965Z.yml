@@ -1,0 +1,109 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e6]:
+      - link "PDF Toolkit" [ref=e7] [cursor=pointer]:
+        - /url: /
+        - img [ref=e9]
+        - generic [ref=e11]: PDF Toolkit
+      - button "Switch to light mode" [ref=e13] [cursor=pointer]:
+        - img
+        - img [ref=e14]
+  - main [ref=e16]:
+    - generic [ref=e17]:
+      - generic [ref=e18]:
+        - generic:
+          - generic:
+            - img
+          - generic:
+            - img
+          - generic:
+            - img
+          - generic:
+            - img
+          - generic:
+            - img
+          - generic:
+            - img
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - img [ref=e25]
+            - generic [ref=e27]: 100% free
+            - generic [ref=e29]: No sign-up required
+          - heading "Every PDF tool you need, right in your browser" [level=1] [ref=e30]:
+            - text: Every PDF tool you need,
+            - text: right in your browser
+          - paragraph [ref=e31]: Merge, split, and convert images to PDF — all client-side with zero file uploads.Your documents stay on your device.
+          - generic [ref=e32]:
+            - link "Get Started" [ref=e33] [cursor=pointer]:
+              - /url: "#tools"
+              - text: Get Started
+              - img [ref=e34]
+            - link "Learn More" [ref=e36] [cursor=pointer]:
+              - /url: "#features"
+      - generic [ref=e38]:
+        - generic [ref=e39]:
+          - heading "Choose a tool" [level=2] [ref=e40]
+          - paragraph [ref=e41]: Select the operation you want to perform
+        - generic [ref=e42]:
+          - link "Merge PDFs Combine multiple PDF files into one. Drag and drop to reorder pages. Open tool" [ref=e43] [cursor=pointer]:
+            - /url: /merge
+            - img [ref=e49]
+            - heading "Merge PDFs" [level=3] [ref=e51]
+            - paragraph [ref=e52]: Combine multiple PDF files into one. Drag and drop to reorder pages.
+            - generic [ref=e53]:
+              - generic [ref=e54]: Open tool
+              - img [ref=e55]
+          - link "Split PDF Split a PDF into individual pages or extract a custom page range. Open tool" [ref=e57] [cursor=pointer]:
+            - /url: /split
+            - img [ref=e63]
+            - heading "Split PDF" [level=3] [ref=e65]
+            - paragraph [ref=e66]: Split a PDF into individual pages or extract a custom page range.
+            - generic [ref=e67]:
+              - generic [ref=e68]: Open tool
+              - img [ref=e69]
+          - link "Images to PDF Convert JPG, PNG, and WebP images into a single PDF document. Open tool" [ref=e71] [cursor=pointer]:
+            - /url: /images-to-pdf
+            - img [ref=e77]
+            - heading "Images to PDF" [level=3] [ref=e79]
+            - paragraph [ref=e80]: Convert JPG, PNG, and WebP images into a single PDF document.
+            - generic [ref=e81]:
+              - generic [ref=e82]: Open tool
+              - img [ref=e83]
+      - generic [ref=e86]:
+        - generic [ref=e87]:
+          - heading "Why PDF Toolkit?" [level=2] [ref=e88]
+          - paragraph [ref=e89]: Built with privacy and simplicity in mind
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - img [ref=e93]
+            - heading "100% Private" [level=3] [ref=e95]
+            - paragraph [ref=e96]: All processing happens in your browser. Your files are never uploaded to any server.
+          - generic [ref=e97]:
+            - img [ref=e99]
+            - heading "Fast & Free" [level=3] [ref=e101]
+            - paragraph [ref=e102]: No registration, no limits, no fees. Just drag, drop, and download.
+          - generic [ref=e103]:
+            - img [ref=e105]
+            - heading "Works Everywhere" [level=3] [ref=e107]
+            - paragraph [ref=e108]: Compatible with all modern browsers on desktop and mobile.
+      - generic [ref=e110]:
+        - img [ref=e112]
+        - heading "Your files stay private" [level=2] [ref=e114]
+        - paragraph [ref=e115]: All processing happens entirely in your browser. No uploads, no servers, no tracking. Your documents never leave your device.
+        - generic [ref=e116]:
+          - generic [ref=e117]:
+            - img [ref=e118]
+            - text: No registration
+          - generic [ref=e120]:
+            - img [ref=e121]
+            - text: No file size limits
+          - generic [ref=e123]:
+            - img [ref=e124]
+            - text: Works offline
+  - contentinfo [ref=e126]:
+    - generic [ref=e128]:
+      - paragraph [ref=e129]: © 2026 PDF Toolkit. Free online PDF tools.
+      - paragraph [ref=e130]:
+        - img [ref=e131]
+        - generic [ref=e133]: 100% client-side
+        - generic [ref=e134]: — your files never leave your browser

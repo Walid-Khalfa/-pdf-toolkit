@@ -1,21 +1,47 @@
 interface ProgressBarProps {
   label?: string
+  showPercentage?: boolean
+  percentage?: number
 }
 
-export default function ProgressBar({ label = 'Processing…' }: ProgressBarProps) {
+export default function ProgressBar({ 
+  label = 'Processing…', 
+  showPercentage = false,
+  percentage 
+}: ProgressBarProps) {
+  const displayPercentage = percentage !== undefined ? percentage : undefined
+
   return (
-    <div className="w-full">
-      <p className="text-sm text-gray-600 mb-2 text-center">{label}</p>
-      <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-        <div className="h-full bg-primary-600 rounded-full animate-[progress_1.5s_ease-in-out_infinite]" style={{ width: '60%' }} />
+    <div className="w-full animate-fade-in">
+      <div className="flex items-center justify-between mb-2">
+        <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{label}</p>
+        {showPercentage && displayPercentage !== undefined && (
+          <p className="text-sm font-semibold text-primary-600 dark:text-primary-400">
+            {Math.round(displayPercentage)}%
+          </p>
+        )}
       </div>
-      <style>{`
-        @keyframes progress {
-          0% { transform: translateX(-100%); width: 60%; }
-          50% { width: 80%; }
-          100% { transform: translateX(200%); width: 60%; }
-        }
-      `}</style>
+      <div className="relative h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+        {/* Shimmer effect for indeterminate */}
+        {displayPercentage === undefined && (
+          <div 
+            className="absolute inset-0 w-1/2 
+                       bg-gradient-to-r from-transparent via-white/40 to-transparent
+                       animate-progress-slide"
+          />
+        )}
+        
+        {/* Progress fill */}
+        <div 
+          className="h-full rounded-full 
+                     bg-gradient-to-r from-primary-500 via-red-500 to-orange-500
+                     bg-[length:200%_auto] animate-gradient-shift
+                     transition-all duration-500 ease-out"
+          style={{ 
+            width: displayPercentage !== undefined ? `${displayPercentage}%` : '100%',
+          }}
+        />
+      </div>
     </div>
   )
 }

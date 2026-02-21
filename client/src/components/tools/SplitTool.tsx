@@ -119,27 +119,33 @@ export default function SplitTool() {
           label="Drop a PDF file here or click to select"
           hint="Select a single PDF to split"
           icon={
-            <svg className="w-8 h-8 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <svg className="w-8 h-8 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           }
         />
       ) : (
-        <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
-          <div className="w-10 h-12 bg-primary-50 rounded-lg flex items-center justify-center flex-shrink-0 border border-primary-100">
-            <svg className="w-5 h-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <div className="file-item animate-fade-in p-4">
+          <div className="w-10 h-12 bg-gradient-to-br from-orange-50 to-orange-100 
+                          dark:from-orange-950/50 dark:to-orange-900/30
+                          rounded-lg flex items-center justify-center flex-shrink-0 
+                          border border-orange-100 dark:border-orange-900/50">
+            <svg className="w-5 h-6 text-orange-600 dark:text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
           </div>
           <div className="flex-1 min-w-0">
-            <p className="font-medium text-gray-800 truncate">{file.name}</p>
+            <p className="font-medium text-gray-800 dark:text-gray-200 truncate">{file.name}</p>
             {pageCount !== null && (
-              <p className="text-sm text-gray-500">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{pageCount} page{pageCount !== 1 ? 's' : ''}</p>
             )}
           </div>
           <button
             onClick={handleReset}
-            className="text-gray-400 hover:text-red-500 p-1 rounded transition-colors"
+            className="text-gray-400 hover:text-red-500 dark:hover:text-red-400 
+                       p-1 rounded 
+                       hover:bg-red-50 dark:hover:bg-red-950/30
+                       transition-colors"
             aria-label="Remove file"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -152,62 +158,92 @@ export default function SplitTool() {
       <ErrorBanner errors={upload.errors} />
 
       {file && (
-        <div className="space-y-4">
+        <div className="space-y-4 animate-fade-in">
           <div>
-            <p className="text-sm font-medium text-gray-700 mb-3">Split mode</p>
+            <p className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Split mode</p>
             <div className="grid grid-cols-2 gap-3">
               <button
                 onClick={() => setMode('all')}
-                className={`p-4 rounded-xl border-2 text-left transition-all ${mode === 'all' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300 bg-white'}`}
+                className={`option-button ${mode === 'all' ? 'option-button-active' : 'option-button-inactive'}`}
               >
-                <p className={`font-medium text-sm ${mode === 'all' ? 'text-primary-700' : 'text-gray-700'}`}>
-                  Split into individual pages
+                <div className="flex items-center gap-2 mb-1">
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center
+                                  ${mode === 'all' 
+                                    ? 'border-primary-500 bg-primary-500' 
+                                    : 'border-gray-300 dark:border-gray-600'}`}>
+                    {mode === 'all' && (
+                      <div className="w-2 h-2 rounded-full bg-white" />
+                    )}
+                  </div>
+                  <p className={`font-medium text-sm 
+                                ${mode === 'all' 
+                                  ? 'text-primary-700 dark:text-primary-300' 
+                                  : 'text-gray-700 dark:text-gray-300'}`}>
+                    Split into pages
+                  </p>
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 text-left pl-7">
+                  Each page becomes a separate PDF
                 </p>
-                <p className="text-xs text-gray-500 mt-0.5">Each page becomes a separate PDF</p>
               </button>
               <button
                 onClick={() => setMode('range')}
-                className={`p-4 rounded-xl border-2 text-left transition-all ${mode === 'range' ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300 bg-white'}`}
+                className={`option-button ${mode === 'range' ? 'option-button-active' : 'option-button-inactive'}`}
               >
-                <p className={`font-medium text-sm ${mode === 'range' ? 'text-primary-700' : 'text-gray-700'}`}>
-                  Extract page range
+                <div className="flex items-center gap-2 mb-1">
+                  <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center
+                                  ${mode === 'range' 
+                                    ? 'border-primary-500 bg-primary-500' 
+                                    : 'border-gray-300 dark:border-gray-600'}`}>
+                    {mode === 'range' && (
+                      <div className="w-2 h-2 rounded-full bg-white" />
+                    )}
+                  </div>
+                  <p className={`font-medium text-sm 
+                                ${mode === 'range' 
+                                  ? 'text-primary-700 dark:text-primary-300' 
+                                  : 'text-gray-700 dark:text-gray-300'}`}>
+                    Extract range
+                  </p>
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 text-left pl-7">
+                  Extract specific pages
                 </p>
-                <p className="text-xs text-gray-500 mt-0.5">Extract a specific range of pages</p>
               </button>
             </div>
           </div>
 
           {mode === 'range' && (
-            <div className="bg-gray-50 rounded-xl p-4 space-y-3">
-              <p className="text-sm font-medium text-gray-700">
-                Page range {pageCount && <span className="text-gray-400 font-normal">(1 – {pageCount})</span>}
+            <div className="options-panel animate-fade-in">
+              <p className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                Page range {pageCount && <span className="text-gray-400 dark:text-gray-500 font-normal">(1 – {pageCount})</span>}
               </p>
               <div className="flex items-center gap-3">
                 <div className="flex-1">
-                  <label className="text-xs text-gray-500 mb-1 block">From page</label>
+                  <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">From page</label>
                   <input
                     type="number"
                     min={1}
                     max={pageCount ?? undefined}
                     value={fromPage}
                     onChange={(e) => setFromPage(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="input"
                   />
                 </div>
-                <span className="text-gray-400 mt-5">—</span>
+                <span className="text-gray-400 dark:text-gray-500 mt-5">—</span>
                 <div className="flex-1">
-                  <label className="text-xs text-gray-500 mb-1 block">To page</label>
+                  <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">To page</label>
                   <input
                     type="number"
                     min={1}
                     max={pageCount ?? undefined}
                     value={toPage}
                     onChange={(e) => setToPage(e.target.value)}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
+                    className="input"
                   />
                 </div>
               </div>
-              {rangeError && <p className="text-xs text-red-600">{rangeError}</p>}
+              {rangeError && <p className="text-xs text-red-600 dark:text-red-400 mt-2">{rangeError}</p>}
             </div>
           )}
         </div>
@@ -216,11 +252,13 @@ export default function SplitTool() {
       {status === 'processing' && <ProgressBar label="Splitting PDF…" />}
 
       {status === 'done' && (
-        <div className="rounded-xl border border-green-200 bg-green-50 p-4 flex items-center gap-3">
-          <svg className="w-5 h-5 text-green-600 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
-          <p className="text-sm text-green-700 font-medium">PDF split and downloaded successfully!</p>
+        <div className="success-banner">
+          <div className="flex-shrink-0 w-10 h-10 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center">
+            <svg className="w-5 h-5 text-green-600 dark:text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <p className="text-sm text-green-700 dark:text-green-300 font-medium">PDF split and downloaded successfully!</p>
         </div>
       )}
 
@@ -235,10 +273,12 @@ export default function SplitTool() {
           loading={status === 'processing'}
           size="lg"
           className="flex-1 sm:flex-none"
+          icon={
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h8m-8 6h16" />
+            </svg>
+          }
         >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h8m-8 6h16" />
-          </svg>
           Split PDF
         </Button>
         {(upload.files.length > 0 || status !== 'idle') && (

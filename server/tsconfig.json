@@ -6,7 +6,11 @@
     "outDir": "dist",
     "strict": true,
     "skipLibCheck": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "baseUrl": ".",
+    "paths": {
+      "@shared": ["../shared/index.ts"]
+    }
   },
-  "include": ["src"]
+  "include": ["src", "../shared"]
 }

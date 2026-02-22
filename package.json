@@ -2,18 +2,49 @@
   "name": "pdf-toolkit",
   "version": "1.0.0",
   "private": true,
+  "overrides": {
+    "minimatch": "^10.2.1"
+  },
   "scripts": {
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
     "dev:client": "npm run dev --workspace=client",
     "dev:server": "npm run dev --workspace=server",
     "build": "npm run build --workspace=client",
-    "preview": "npm run preview --workspace=client"
+    "preview": "npm run preview --workspace=client",
+    "lint": "npm run lint --workspace=client && npm run lint --workspace=server",
+    "lint:fix": "npm run lint:fix --workspace=client && npm run lint:fix --workspace=server",
+    "typecheck": "npm run typecheck --workspace=client && npm run typecheck --workspace=server",
+    "format": "npm run format --workspace=client && npm run format --workspace=server",
+    "format:check": "npm run format:check --workspace=client && npm run format:check --workspace=server",
+    "test": "npm run test --workspace=client && npm run test --workspace=server",
+    "test:watch": "concurrently \"npm run test:watch --workspace=client\" \"npm run test:watch --workspace=server\"",
+    "test:coverage": "npm run test:coverage --workspace=client && npm run test:coverage --workspace=server",
+    "prepare": "husky"
   },
   "workspaces": [
     "client",
-    "server"
+    "server",
+    "shared"
   ],
+  "lint-staged": {
+    "client/**/*.{ts,tsx}": [
+      "eslint --fix --config client/eslint.config.js",
+      "prettier --write"
+    ],
+    "server/**/*.ts": [
+      "eslint --fix --config server/eslint.config.js",
+      "prettier --write"
+    ],
+    "shared/**/*.ts": [
+      "prettier --write"
+    ],
+    "*.{json,md}": [
+      "prettier --write"
+    ]
+  },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.4.3"
   }
 }

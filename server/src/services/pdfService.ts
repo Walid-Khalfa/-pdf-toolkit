@@ -1,114 +1,194 @@
-import { PDFDocument } from 'pdf-lib';
-import fs from 'fs';
-import path from 'path';
-import archiver from 'archiver';
-import { fromPath } from 'pdf2pic';
-import type { 
-  CompressOptions, 
-  ProtectOptions, 
-  UnlockOptions, 
-  PdfToImagesOptions 
-} from '../types/index.js';
-import { createTempDir, generateOutputFilename } from '../utils/fileUtils.js';
+import { PDFDocument } from 'pdf-lib'
+import fs from 'fs'
+import path from 'path'
+import archiver from 'archiver'
+import { fromPath } from 'pdf2pic'
+import type { CompressOptions, ProtectOptions, UnlockOptions, PdfToImagesOptions } from '@shared'
+import { createTempDir, generateOutputFilename } from '../utils/fileUtils.js'
+import { compressWithGhostscript, isGhostscriptAvailable } from '../utils/ghostscript.js'
+import { protectWithQpdf, unlockWithQpdf, isQpdfAvailable } from '../utils/qpdf.js'
 
-export async function compressPdf(buffer: Buffer, options: CompressOptions, originalName: string) {
+async function compressWithPdfLib(buffer: Buffer): Promise<Uint8Array> {
+  const pdfDoc = await PDFDocument.load(buffer)
+  return pdfDoc.save({
+    useObjectStreams: true,
+    addDefaultPage: false,
+  })
+}
+
+export async function compressPdf(
+  buffer: Buffer,
+  options: CompressOptions,
+  originalName: string
+): Promise<{
+  buffer: Buffer
+  originalSize: number
+  compressedSize: number
+  filename: string
+  usedGhostscript: boolean
+}> {
+  const originalSize = buffer.length
+  const tempDir = createTempDir()
+
   try {
-    const pdfDoc = await PDFDocument.load(buffer);
-    
-    const pdfBytes = await pdfDoc.save({
-      useObjectStreams: true,
-      addDefaultPage: false,
-    });
+    if (await isGhostscriptAvailable()) {
+      const inputPath = path.join(tempDir, 'input.pdf')
+      const outputPath = path.join(tempDir, 'output.pdf')
 
-    const originalSize = buffer.length;
-    const compressedSize = pdfBytes.length;
-    const filename = generateOutputFilename(originalName, 'compressed', 'pdf');
+      fs.writeFileSync(inputPath, buffer)
+      await compressWithGhostscript(inputPath, outputPath, options.quality)
+
+      const compressedBuffer = fs.readFileSync(outputPath)
+      const filename = generateOutputFilename(originalName, 'compressed', 'pdf')
+
+      return {
+        buffer: compressedBuffer,
+        originalSize,
+        compressedSize: compressedBuffer.length,
+        filename,
+        usedGhostscript: true,
+      }
+    }
+
+    const pdfBytes = await compressWithPdfLib(buffer)
+    const filename = generateOutputFilename(originalName, 'compressed', 'pdf')
 
     return {
       buffer: Buffer.from(pdfBytes),
       originalSize,
-      compressedSize,
+      compressedSize: pdfBytes.length,
       filename,
-    };
-  } catch (error) {
-    throw new Error('Failed to compress PDF');
+      usedGhostscript: false,
+    }
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true })
   }
 }
 
-export async function protectPdf(buffer: Buffer, options: ProtectOptions, originalName: string) {
+export async function protectPdf(
+  buffer: Buffer,
+  options: ProtectOptions,
+  originalName: string
+): Promise<{ buffer: Buffer; filename: string; originalName: string; usedQpdf: boolean }> {
+  const tempDir = createTempDir()
+
   try {
-    const pdfDoc = await PDFDocument.load(buffer);
-    
-    // Use pdf-lib's standard security handler
-    // Note: pdf-lib's encryption is limited; for production, consider using qpdf
-    const pdfBytes = await pdfDoc.save();
-    const filename = generateOutputFilename(originalName, 'protected', 'pdf');
+    if (await isQpdfAvailable()) {
+      const inputPath = path.join(tempDir, 'input.pdf')
+      const outputPath = path.join(tempDir, 'output.pdf')
+
+      fs.writeFileSync(inputPath, buffer)
+      await protectWithQpdf(inputPath, outputPath, options)
+
+      const protectedBuffer = fs.readFileSync(outputPath)
+      const filename = generateOutputFilename(originalName, 'protected', 'pdf')
+
+      return {
+        buffer: protectedBuffer,
+        filename,
+        originalName,
+        usedQpdf: true,
+      }
+    }
+
+    const pdfDoc = await PDFDocument.load(buffer)
+    const pdfBytes = await pdfDoc.save()
+    const filename = generateOutputFilename(originalName, 'protected', 'pdf')
+
+    console.warn('qpdf not available - PDF saved without actual encryption')
 
     return {
       buffer: Buffer.from(pdfBytes),
       filename,
       originalName,
-    };
-  } catch (error) {
-    throw new Error('Failed to protect PDF');
+      usedQpdf: false,
+    }
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true })
   }
 }
 
-export async function unlockPdf(buffer: Buffer, options: UnlockOptions, originalName: string) {
+export async function unlockPdf(
+  buffer: Buffer,
+  options: UnlockOptions,
+  originalName: string
+): Promise<{ buffer: Buffer; filename: string; originalName: string; usedQpdf: boolean }> {
+  const tempDir = createTempDir()
+
   try {
+    if (await isQpdfAvailable()) {
+      const inputPath = path.join(tempDir, 'input.pdf')
+      const outputPath = path.join(tempDir, 'output.pdf')
+
+      fs.writeFileSync(inputPath, buffer)
+      await unlockWithQpdf(inputPath, outputPath, options.password)
+
+      const unlockedBuffer = fs.readFileSync(outputPath)
+      const filename = generateOutputFilename(originalName, 'unlocked', 'pdf')
+
+      return {
+        buffer: unlockedBuffer,
+        filename,
+        originalName,
+        usedQpdf: true,
+      }
+    }
+
     const pdfDoc = await PDFDocument.load(buffer, {
       ignoreEncryption: true,
-    });
+    })
 
-    const pdfBytes = await pdfDoc.save();
-    const filename = generateOutputFilename(originalName, 'unlocked', 'pdf');
+    const pdfBytes = await pdfDoc.save()
+    const filename = generateOutputFilename(originalName, 'unlocked', 'pdf')
 
     return {
       buffer: Buffer.from(pdfBytes),
       filename,
       originalName,
-    };
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('encrypted')) {
-      throw new Error('Invalid password or encrypted PDF');
+      usedQpdf: false,
     }
-    throw new Error('Failed to unlock PDF');
+  } finally {
+    fs.rmSync(tempDir, { recursive: true, force: true })
   }
 }
 
 interface PdfToImagesResult {
-  zipPath: string;
-  pageCount: number;
-  filename: string;
-  tempDir: string;
+  zipPath: string
+  pageCount: number
+  filename: string
+  tempDir: string
 }
 
-export async function pdfToImages(buffer: Buffer, options: PdfToImagesOptions, originalName: string): Promise<PdfToImagesResult> {
+export async function pdfToImages(
+  buffer: Buffer,
+  options: PdfToImagesOptions,
+  originalName: string
+): Promise<PdfToImagesResult> {
   try {
-    const tempDir = createTempDir();
-    const tempPdfPath = path.join(tempDir, 'temp.pdf');
-    fs.writeFileSync(tempPdfPath, buffer);
+    const tempDir = createTempDir()
+    const tempPdfPath = path.join(tempDir, 'temp.pdf')
+    fs.writeFileSync(tempPdfPath, buffer)
 
     const converterWithPath = fromPath(tempPdfPath, {
       density: options.dpi,
       format: options.format,
       width: undefined,
       height: undefined,
-    });
+    })
 
-    const pageCount = (converterWithPath as any).totalPage;
+    const pageCount = (converterWithPath as unknown as { totalPage: number }).totalPage
 
-    const files: string[] = [];
+    const files: string[] = []
     for (let i = 1; i <= pageCount; i++) {
-      const result: any = await converterWithPath(i);
+      const result = await (converterWithPath as (page: number) => Promise<{ path: string }>)(i)
       if (result.path) {
-        files.push(result.path);
+        files.push(result.path)
       }
     }
 
-    const zipPath = path.join(tempDir, generateOutputFilename(originalName, 'images', 'zip'));
-    const output = fs.createWriteStream(zipPath);
-    const archive = archiver('zip', { zlib: { level: 9 } });
+    const zipPath = path.join(tempDir, generateOutputFilename(originalName, 'images', 'zip'))
+    const output = fs.createWriteStream(zipPath)
+    const archive = archiver('zip', { zlib: { level: 9 } })
 
     return new Promise<PdfToImagesResult>((resolve, reject) => {
       output.on('close', () => {
@@ -117,23 +197,23 @@ export async function pdfToImages(buffer: Buffer, options: PdfToImagesOptions, o
           pageCount,
           filename: path.basename(zipPath),
           tempDir,
-        });
-      });
+        })
+      })
 
-      archive.on('error', (err) => {
-        reject(err);
-      });
+      archive.on('error', err => {
+        reject(err)
+      })
 
-      archive.pipe(output);
-      
-      files.forEach((file) => {
-        const fileName = path.basename(file);
-        archive.file(file, { name: `page-${fileName}` });
-      });
+      archive.pipe(output)
 
-      archive.finalize();
-    });
-  } catch (error) {
-    throw new Error('Failed to convert PDF to images');
+      files.forEach(file => {
+        const fileName = path.basename(file)
+        archive.file(file, { name: `page-${fileName}` })
+      })
+
+      archive.finalize()
+    })
+  } catch {
+    throw new Error('Failed to convert PDF to images')
   }
 }
